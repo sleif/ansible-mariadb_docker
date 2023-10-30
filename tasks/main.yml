@@ -106,7 +106,7 @@
 # - ansible.builtin.debug:
 #     msg: "{{ filecontext.results[0] }}"
 
-- name: Run restore context to reload selinux
+- name: Run restore context to reload selinux  # noqa: no-changed-when
   ansible.builtin.command: |
     restorecon -F -R -v {{ item.target }}
   with_items:
