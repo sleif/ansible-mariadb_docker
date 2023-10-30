@@ -5,3 +5,4 @@ skip_list:
   - name[template]
   - role-name
   - var-naming[no-role-prefix]
+  - var-naming[pattern]
