@@ -20,6 +20,14 @@
 #   from INFORMATION_SCHEMA.TABLES where CREATE_OPTIONS LIKE "row_format=compressed" AND ENGINE="InnoDB"' > /tmp/m2
 # cat /tmp/m2 | mysql -u root -p
 
+# https://github.com/nextcloud/server/issues/25436
+# Check…
+# mariadb --batch --skip-column-names -e 'SELECT CONCAT("ALTER TABLE ",TABLE_SCHEMA,".",TABLE_NAME," ROW_FORMAT=DYNAMIC;") from
+#   INFORMATION_SCHEMA.TABLES where TABLE_NAME like "oc\_%" AND ENGINE = "InnoDB" AND ROW_FORMAT != "Dynamic";'
+# …and actually change:
+# mariadb --batch --skip-column-names -e 'SELECT CONCAT("ALTER TABLE ",TABLE_SCHEMA,".",TABLE_NAME," ROW_FORMAT=DYNAMIC;") from
+#   INFORMATION_SCHEMA.TABLES where TABLE_NAME like "oc\_%" AND ENGINE = "InnoDB" AND ROW_FORMAT != "Dynamic";' | mariadb
+
 - name: Start MariaDB container for {{ MYSQL_DATABASE }}
   community.general.docker_container:
     name: "{{ MYSQL_CONTAINER_NAME }}"
@@ -28,7 +36,7 @@
     restart_policy: always
     recreate: true
     networks:
-      - name: "{{ DOCKER_NETWORK_NAME }}"
+      - name: "{{ docker_network_name }}"
         aliases:
           # - mariadb-container
           - "{{ MYSQL_CONTAINER_NAME }}"

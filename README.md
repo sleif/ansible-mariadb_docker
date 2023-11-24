@@ -14,7 +14,7 @@ Role Variables
 - container_storage_dir_base_backup: '/srv'
 - mariadb_container_max_connections: '512'
 - mariadb_container_exposed_port: '3306'
-- DOCKER_NETWORK_NAME (can be defined in sleif.docker)
+- docker_network_name (can be defined in sleif.docker)
 
 Dependencies
 ------------
@@ -28,7 +28,7 @@ Example Playbook
     - hosts: "server"
       user: root
       vars:
-        DOCKER_NETWORK_NAME: 'custom_docker_network'
+        docker_network_name: 'custom_docker_network'
       roles:
         - { role: sleif.mariadb_docker, tags: "mariadb_docker" }
 
