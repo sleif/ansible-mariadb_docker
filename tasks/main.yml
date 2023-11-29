@@ -51,7 +51,7 @@
       MYSQL_USER: "{{ mysql_user }}"
       MYSQL_PASSWORD: "{{ mysql_password }}"
       MYSQL_DATABASE: "{{ mysql_database }}"
-      MYSQL_ROOT_PASSWORD: "{{ MYSQL_ROOT_PASSWORD }}"
+      MYSQL_ROOT_PASSWORD: "{{ mysql_root_password }}"
 
 - name: "create {{ mysql_container_name }} backup directory"
   ansible.builtin.file:
@@ -73,7 +73,7 @@
     name: "Daily dump of mariadb {{ mysql_database }}"
     minute: "11"
     hour: "*/4"
-    job: "docker exec {{ mysql_container_name }} sh -c 'exec mariadb-dump --lock-tables --all-databases --user=root --password={{ MYSQL_ROOT_PASSWORD }}' >
+    job: "docker exec {{ mysql_container_name }} sh -c 'exec mariadb-dump --lock-tables --all-databases --user=root --password={{ mysql_root_password }}' >
       {{ container_storage_dir_base_backup }}/{{ mysql_container_name }}_backups/{{ mysql_container_name }}.sql;
       bzip2 -f {{ container_storage_dir_base_backup }}/{{ mysql_container_name }}_backups/{{ mysql_container_name }}.sql"
   tags:
