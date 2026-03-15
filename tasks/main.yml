@@ -93,7 +93,7 @@
     state: true
     persistent: true
   when:
-    - ansible_selinux and ansible_selinux.status == "enabled"
+    - ansible_facts.selinux and ansible_facts.selinux.status == "enabled"
   tags:
     - mariadb_selinux
 
